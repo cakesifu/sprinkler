@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js",
-    "dev": "concurrently \"tsc -w\" \"tsc && nodemon dist/index.js\"",
-    "test": "tsc && ava",
-    "tdd": "tsc && concurrently \"tsc -w\" \"ava --watch\""
+    "start": "node app/index.js",
+    "dev": "nodemon app/index.js",
+    "test": "ava",
+    "tdd": "ava --watch"
   },
   "repository": {
     "type": "git",
@@ -21,22 +21,19 @@
   "homepage": "https://github.com/cakesifu/sprinkler#readme",
   "dependencies": {
     "mqtt": "^2.17.0",
-    "rxjs": "^5.5.10",
-    "typescript": "^2.8.1"
+    "rxjs": "^5.5.10"
   },
   "devDependencies": {
-    "@types/sinon": "~4.3.1",
     "ava": "~0.25.0",
-    "concurrently": "^3.5.1",
     "nodemon": "^1.17.3",
     "sinon": "~4.5.0"
   },
   "ava": {
     "files": [
-      "dist/**/*.test.js"
+      "app/**/*.test.js"
     ],
     "sources": [
-      "dist/**/*.js"
+      "app/**/*.js"
     ]
   }
 }

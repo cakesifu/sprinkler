@@ -1,7 +1,7 @@
-import test from 'ava';
-import sinon from 'sinon';
+const test = require('ava');
+const sinon = require('sinon');
 
-import { Sprinkler } from './Sprinkler';
+const { Sprinkler } = require('./Sprinkler');
 
 const hwI = {
   on: sinon.stub(),
@@ -24,7 +24,6 @@ test('should', (t) => {
 
   sprinkler.start(2000);
   t.true(hwI.on.calledWith('1'));
-
 
   clock.restore();
 });
