@@ -1,15 +1,10 @@
-const { BehaviorSubject, Observable, pipe } = require('rxjs/Rx');
-const { tap, delay, concatMap, ignoreElements } = require('rxjs/operators');
+const { BehaviorSubject, Observable } = require('rxjs/Rx');
+const { tap, concatMap } = require('rxjs/operators');
 
 class Sprinkler {
-  running$ = new BehaviorSubject(false);
-  nextRun$ = new BehaviorSubject(undefined);
-  dailyRunTime$ = new BehaviorSubject(undefined);
-
-  zones = [];
-
-  constructor(hwInterface) {
-    this.hwInterface = hwInterface;
+  constructor() {
+    this.running$ = new BehaviorSubject(false);
+    this.zones = [];
   }
 
   add(zone) {
@@ -18,38 +13,18 @@ class Sprinkler {
 
   start(duration) {
     this.running$.next(true);
-
     return Observable.from(this.zones).pipe(
-      concatMap((zone) => Observable.of(zone).pipe(
-        tap((x) => console.log(x)),
-        tap((zone) => this.startZone(zone)),
-        delay(duration * zone.flow),
-      )),
+      concatMap((zone) => zone.run(duration)),
       tap(
-        (zone) => this.stopZone(zone),
-        () => this.stop(),
-        () => this.stop(),
+        () => null,
+        () => null,
+        () => this.running$.next(false)
       ),
-      ignoreElements(),
     );
   }
 
   stop() {
-    console.log('stop');
-  }
-
-  nextStart(time, duration) {
-    // if (this.nextRun) { clear(this.nextRun) }
-    // this.nextRun = scheduler.on(time, () => this.start(duration));
-    //
-  }
-
-  startZone(zone) {
-    this.hwInterface.on(zone.pin);
-  }
-
-  stopZone(zone) {
-    this.hwInterface.off(zone.pin);
+    this.zones.forEach((zone) => zone.stop());
   }
 }
 

@@ -1,4 +1,4 @@
-const { ConsoleInterface } = require('./ConsoleInterface');
+const { ConsoleInterface } = require('./Console');
 
 module.exports = {
   ConsoleInterface,
