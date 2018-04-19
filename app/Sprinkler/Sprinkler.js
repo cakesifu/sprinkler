@@ -11,20 +11,20 @@ class Sprinkler {
     this.zones.push(zone);
   }
 
-  start(duration) {
+  async start(duration) {
     this.running$.next(true);
-    return Observable.from(this.zones).pipe(
-      concatMap((zone) => zone.run(duration)),
-      tap(
-        () => null,
-        () => null,
-        () => this.running$.next(false)
-      ),
-    );
+    let i = 0;
+    while (this.running$.value && i < this.zones.length) {
+      const zone = this.zones[i];
+      console.log('start zone ', i);
+      await zone.run(duration);
+      i++;
+    };
   }
 
   stop() {
     this.zones.forEach((zone) => zone.stop());
+    this.running$.next(false);
   }
 }
 

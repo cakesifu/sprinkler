@@ -4,8 +4,8 @@ const sinon = require('sinon');
 const { Zone, Sprinkler } = require('./');
 
 const hwI = {
-  on: sinon.stub(),
-  off: sinon.stub(),
+  on: sinon.spy(),
+  off: sinon.spy(),
 };
 
 function makeSprinkler() {
@@ -17,14 +17,25 @@ function makeSprinkler() {
   return sprinkler;
 }
 
-test.cb('should', (t) => {
-  const clock = sinon.useFakeTimers();
+test('should', (t) => {
   const sprinkler = makeSprinkler();
+  const clock = sinon.useFakeTimers();
 
-  sprinkler.start(2000).subscribe(() => t.end());
+  sprinkler.start(1000);
+
   t.true(hwI.on.calledWith('1'));
-  clock.tick(2000);
-  clock.runAll();
+  t.false(hwI.on.calledWith('2'));
+
+  clock.tick(1000);
+
+  t.true(hwI.off.calledWith('1'));
+  t.true(hwI.on.calledWith('2'));
+
+  clock.tick(1000);
+  t.false(hwI.off.calledWith('2'));
+
+  clock.tick(1000);
+  t.true(hwI.off.calledWith('2'));
 
   clock.restore();
 });
