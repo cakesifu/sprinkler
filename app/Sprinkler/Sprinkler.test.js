@@ -1,4 +1,5 @@
 const test = require('ava');
+const flush = require('flush-promises');
 const sinon = require('sinon');
 
 const { Zone, Sprinkler } = require('./');
@@ -17,25 +18,29 @@ function makeSprinkler() {
   return sprinkler;
 }
 
-test('should', (t) => {
-  const sprinkler = makeSprinkler();
+test('runs zones in order one after another', async (t) => {
   const clock = sinon.useFakeTimers();
+  const sprinkler = makeSprinkler();
 
-  sprinkler.start(1000);
+  const promise = sprinkler.start(1000);
 
   t.true(hwI.on.calledWith('1'));
   t.false(hwI.on.calledWith('2'));
+  t.false(hwI.off.calledWith('1'));
 
   clock.tick(1000);
+
+  await flush();
 
   t.true(hwI.off.calledWith('1'));
   t.true(hwI.on.calledWith('2'));
-
-  clock.tick(1000);
   t.false(hwI.off.calledWith('2'));
 
-  clock.tick(1000);
+  clock.tick(2000);
+
   t.true(hwI.off.calledWith('2'));
 
   clock.restore();
+
+  return promise;
 });

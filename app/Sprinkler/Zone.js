@@ -1,3 +1,5 @@
+const debug = require('debug')('app:zone');
+
 class Zone {
   constructor(hwInterface, options) {
     this.name = options.name;
@@ -7,24 +9,31 @@ class Zone {
   }
 
   run(duration) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
+      const finalDuration = duration * this.flow;
+      this._started = Date.now();
+
+      debug('starting zone %s for %d minutes', this.name, duration / 60000);
       this.hwInterface.on(this.pin);
       this._resolve = resolve;
-      this._timeoutId = setTimeout(() => this.stop(), duration * this.flow);
+      this._timeoutId = setTimeout(() =>  this.stop(), finalDuration);
     });
   }
 
   stop() {
+    this.hwInterface.off(this.pin);
+    const duration = Date.now() - this._started;
+    debug('stopped zone %s after %d minutes', this.name, duration / 60000);
+
     if (this._timeoutId) {
       clearTimeout(this._timeoutId);
     }
 
     if (this._resolve) {
-      this._resolve();
+      const resolve = this._resolve;
       this._resolve = undefined;
+      resolve();
     }
-
-    this.hwInterface.off(this.pin);
   }
 }
 

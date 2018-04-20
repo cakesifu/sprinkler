@@ -1,10 +1,12 @@
+const debug = require('debug')('app:hwi:console');
+
 class ConsoleInterface {
   on(pin) {
-    console.log('opening :', pin);
+    debug('opening : %s', pin);
   }
 
   off(pin) {
-    console.log('closing :', pin);
+    debug('closing : %s', pin);
   }
 }
 
