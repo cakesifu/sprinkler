@@ -6,14 +6,11 @@ module.exports = {
   'parserOptions': {
     'sourceType': 'module',
     'ecmaFeatures': {
-      'jsx': true,
+      'jsx': false,
       'modules': true
     }
   },
-  'plugins': [
-    'import',
-    'react'
-  ],
+  'plugins': [],
   'env': {
     'browser': false,
     'node': true,

@@ -1,14 +1,12 @@
 const { Zone, Sprinkler } = require('./Sprinkler');
 const { Store } = require('./Store');
 const { ConsoleInterface } = require('./Hardware');
+const { Device } = require('./Pulsario');
+const config = require('./config');
 
-const file = process.env.STATE_FILE;
 
-if (!file) {
-  throw new Error('need to specify a STATE_FILE env variable');
-}
-
-const store = new Store(file);
+const device = new Device(config.deviceKey, config.mqttUrl);
+const store = new Store(config.stateFile);
 const hwInterface = new ConsoleInterface();
 const sprinkler = new Sprinkler(store.state);
 
