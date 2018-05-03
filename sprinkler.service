@@ -1,0 +1,9 @@
+[Unit]
+Description="Pulsario based sprinkler automation"
+
+[Install]
+
+[Service]
+ExecStart=npm start
+WorkingDirectory=/opt/sprinkler
+EnvironmentFile=/opt/sprinkler/.env

@@ -22,5 +22,5 @@ device.input('schedule').subscribe((schedule) => sprinkler.setSchedule(schedule)
 device.input('duration').subscribe((duration) => sprinkler.setDuration(duration));
 
 sprinkler.running$.subscribe((running) => {
-  device.output('running', running ? 1 : 0);
+  device.output('running', running);
 });

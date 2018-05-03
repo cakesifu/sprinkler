@@ -27,9 +27,5 @@ module.exports = {
     'quotes': ['error', 'single'],
     'no-redeclare': 0,
     'object-curly-spacing': ['error', 'always'],
-    'react/jsx-indent': ['error', 2],
-    'react/jsx-wrap-multilines': 2,
-    'react/jsx-tag-spacing': 2,
-    'react/jsx-no-duplicate-props': 2
   }
 };
