@@ -1,12 +1,14 @@
 const debug = require('debug')('app:sprinkler');
 const schedule = require('node-schedule');
 const { BehaviorSubject } = require('rxjs/Rx');
+const { minutes } = require('./utils');
 
 class Sprinkler {
   constructor(state = {}) {
+    debug('create sprinkler with state %o', state);
     this.running$ = new BehaviorSubject(false);
     this.duration$ = new BehaviorSubject(state.duration || 0);
-    this.schedule$ = new BehaviorSubject(state.schedule || undefined);
+    this.schedule$ = new BehaviorSubject(state.schedule || '');
 
     this.zones = [];
 
@@ -28,7 +30,7 @@ class Sprinkler {
   }
 
   async start(duration) {
-    debug('start cycle. base duration: %d minutes', duration / 60000);
+    debug('start cycle. base duration: %s minutes', minutes(duration));
 
     this.running$.next(true);
     this._started = Date.now();
@@ -42,7 +44,7 @@ class Sprinkler {
     }
 
     const len = Date.now() - this._started;
-    debug('end cycle after: %d minutes', len / 60000);
+    debug('end cycle after: %s ', minutes(len));
     debug('------------------------------------');
 
     this.running$.next(false);
@@ -50,7 +52,8 @@ class Sprinkler {
   }
 
   setDuration(duration) {
-    debug('set new base duration: %d minutes', duration / 60000);
+    duration = parseInt(duration, 10);
+    debug('set new base duration: %s ', minutes(duration));
     this.duration$.next(duration);
   }
 
@@ -60,7 +63,13 @@ class Sprinkler {
 
   scheduledStart() {
     const duration = this.duration$.value;
-    debug('start scheduled cycle');
+
+    if (!duration) {
+      debug('skipping scheduled start because baseDuration is 0');
+      return;
+    }
+
+    debug('start scheduled cycle (%s)', minutes(duration));
     this.start(duration);
   }
 

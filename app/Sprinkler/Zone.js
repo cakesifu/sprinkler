@@ -1,4 +1,5 @@
 const debug = require('debug')('app:zone');
+const { minutes } = require('./utils');
 
 class Zone {
   constructor(hwInterface, options) {
@@ -13,7 +14,7 @@ class Zone {
       const finalDuration = duration * this.flow;
       this._started = Date.now();
 
-      debug('starting zone %s for %d minutes', this.name, duration / 60000);
+      debug('starting zone %s for %s ', this.name, minutes(finalDuration));
       this.hwInterface.on(this.pin);
       this._resolve = resolve;
       this._timeoutId = setTimeout(() =>  this.stop(), finalDuration);
@@ -23,7 +24,7 @@ class Zone {
   stop() {
     this.hwInterface.off(this.pin);
     const duration = Date.now() - this._started;
-    debug('stopped zone %s after %d minutes', this.name, duration / 60000);
+    debug('stopped zone %s after %s', this.name, minutes(duration));
 
     if (this._timeoutId) {
       clearTimeout(this._timeoutId);

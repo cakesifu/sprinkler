@@ -1,3 +1,4 @@
+const debug = require('debug')('app:store');
 const fs = require('fs');
 
 class Store {
@@ -17,6 +18,7 @@ class Store {
   }
 
   load() {
+    debug('reading state from %s', this.file);
     const data = fs.readFileSync(this.file);
     if (data.length) {
       this.state = JSON.parse(data);
@@ -26,6 +28,7 @@ class Store {
   }
 
   save() {
+    debug('saving state to %s', this.file);
     fs.writeFileSync(this.file, JSON.stringify(this.state));
   }
 }
