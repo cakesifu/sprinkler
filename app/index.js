@@ -20,6 +20,7 @@ sprinkler.add(new Zone(hwInterface, { name: 'two', flow: 1.5, pin: '2' }));
 
 device.input('schedule').subscribe((schedule) => sprinkler.setSchedule(schedule));
 device.input('duration').subscribe((duration) => sprinkler.setDuration(duration));
+device.input('start').subscribe((duration) => sprinkler.start(duration));
 
 sprinkler.running$.subscribe((running) => {
   device.output('running', running);

@@ -30,7 +30,7 @@ class Sprinkler {
   }
 
   async start(duration) {
-    debug('start cycle. base duration: %s minutes', minutes(duration));
+    debug('start cycle. base duration: %s', minutes(duration));
 
     this.running$.next(true);
     this._started = Date.now();

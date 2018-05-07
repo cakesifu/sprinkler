@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app/index.js",
-    "dev": "STATE_FILE=.data/state.json nodemon app/index.js",
+    "dev": "nodemon app/index.js",
     "test": "ava",
     "tdd": "ava --watch"
   },
