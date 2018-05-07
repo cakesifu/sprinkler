@@ -4,6 +4,11 @@ Description="Pulsario based sprinkler automation"
 [Install]
 
 [Service]
+ExecStartPre=-/usr/bin/mkdir /var/run/sprinkler
+ExecStartPre=/usr/bin/touch /var/run/sprinkler/state.json
 ExecStart=npm start
 WorkingDirectory=/opt/sprinkler
-EnvironmentFile=/opt/sprinkler/.env
+
+Environment=STATE_FILE=/var/run/sprinkler/state.json
+Environment=DEVICE_KEY=foo
+Environment=MQTT_URL=mqtt://mqtt.pulsario.com/
