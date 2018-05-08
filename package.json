@@ -1,6 +1,6 @@
 {
   "name": "sprinkler",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,8 @@
     "dev": "nodemon app/index.js",
     "test": "ava",
     "tdd": "ava --watch",
-    "docker:build":  "./scripts/docker.sh build",
-    "docker:push":  "./scripts/docker.sh push",
+    "docker:build": "./scripts/docker.sh build",
+    "docker:push": "./scripts/docker.sh push",
     "postversion": "npm run docker:build && npm run docker:push"
   },
   "repository": {
