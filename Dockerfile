@@ -11,6 +11,4 @@ RUN apk add --no-cache make gcc g++ python && \
     npm install --production --silent && \
     apk del make gcc g++ python
 
-RUN npm install
-
 CMD ["node", "app/index.js"]
