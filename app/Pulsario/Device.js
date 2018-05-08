@@ -13,6 +13,7 @@ class Device {
 
     this.client.on('connect', this.handleConnect.bind(this));
     this.client.on('message', this.handleMessage.bind(this));
+    this.client.on('error', this.handleError.bind(this));
   }
 
   input(field) {
@@ -37,12 +38,15 @@ class Device {
     }
 
     debug('publishing to %s -> %s', topic, value);
-    this.client.subscribe(topic);
     this.client.publish(topic, value);
   }
 
   topicFor(field, io) {
     return `/d/${this.key}/${io}/${field}`;
+  }
+
+  handleError(err) {
+    debug('error connecting to mqtt ', err);
   }
 
   handleConnect() {

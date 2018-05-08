@@ -7,7 +7,10 @@
     "start": "node app/index.js",
     "dev": "nodemon app/index.js",
     "test": "ava",
-    "tdd": "ava --watch"
+    "tdd": "ava --watch",
+    "docker:build":  "./scripts/docker.sh build",
+    "docker:push":  "./scripts/docker.sh push",
+    "postversion": "npm run docker:build && npm run docker:push"
   },
   "repository": {
     "type": "git",
