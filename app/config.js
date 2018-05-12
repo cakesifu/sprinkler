@@ -1,7 +1,8 @@
 const stateFile = process.env.STATE_FILE;
 const deviceKey = process.env.DEVICE_KEY;
 const mqttUrl = process.env.MQTT_URL;
-const interface = process.env.INTERFACE || 'console';
+const hwInterface = process.env.INTERFACE || 'console';
+const ctrlPin = process.env.CONTROL_PIN;
 const zoneCount = process.env.ZONES;
 const zones = [];
 
@@ -48,5 +49,6 @@ module.exports = {
   deviceKey,
   mqttUrl,
   zones,
-  interface,
+  hwInterface,
+  ctrlPin,
 };

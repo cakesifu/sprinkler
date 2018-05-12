@@ -9,11 +9,23 @@ class RPIInterface {
   on(pinNo) {
     debug('opening PIN %s', pinNo);
     const pin = this.getPinInterface(pinNo);
-    pin.writeSync(1);
+    pin.writeSync(0);
   }
 
   off(pinNo) {
     debug('closing PIN %s', pinNo);
+    const pin = this.getPinInterface(pinNo);
+    pin.writeSync(1);
+  }
+
+  enable(pinNo) {
+    debug('enabling control PIN %s', pinNo);
+    const pin = this.getPinInterface(pinNo);
+    pin.writeSync(1);
+  }
+
+  disable(pinNo) {
+    debug('disable control PIN %s', pinNo);
     const pin = this.getPinInterface(pinNo);
     pin.writeSync(0);
   }

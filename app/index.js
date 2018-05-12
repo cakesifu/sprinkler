@@ -9,16 +9,21 @@ const config = require('./config');
 
 const device = new Device(config.deviceKey, config.mqttUrl);
 const store = new Store(config.stateFile);
-const hwInterface = config.interface === 'rpi' ? new RPIInterface() : new ConsoleInterface();
+const hwInterface = config.hwInterface === 'rpi' ? new RPIInterface() : new ConsoleInterface();
 const sprinkler = new Sprinkler(store.state);
 
 store.watch(sprinkler.duration$, 'duration');
 store.watch(sprinkler.schedule$, 'schedule');
 
 config.zones.forEach((data) => {
-  sprinkler.add(new Zone(hwInterface, data));
+  const zone = new Zone(hwInterface, data);
+  zone.off();
+  sprinkler.add(zone);
 });
 
+if (config.ctrlPin) {
+  hwInterface.enable(config.ctrlPin);
+}
 
 device.input('schedule').subscribe((schedule) => sprinkler.setSchedule(schedule));
 device.input('duration').subscribe((duration) => sprinkler.setDuration(duration));
