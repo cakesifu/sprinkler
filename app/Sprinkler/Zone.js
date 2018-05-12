@@ -7,6 +7,7 @@ class Zone {
     this.flow = options.flow || 1;
     this.pin = options.pin;
     this.hwInterface = hwInterface;
+    this._started = Date.now();
   }
 
   run(duration) {

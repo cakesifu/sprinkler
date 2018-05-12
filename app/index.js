@@ -17,7 +17,7 @@ store.watch(sprinkler.schedule$, 'schedule');
 
 config.zones.forEach((data) => {
   const zone = new Zone(hwInterface, data);
-  zone.off();
+  zone.stop();
   sprinkler.add(zone);
 });
 
