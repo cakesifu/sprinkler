@@ -6,15 +6,15 @@ class RPIInterface {
     this._interfaces = {};
   }
 
-  on(pin) {
-    debug('opening PIN %s', pin);
-    const pin = this.getPinInterface(pin);
+  on(pinNo) {
+    debug('opening PIN %s', pinNo);
+    const pin = this.getPinInterface(pinNo);
     pin.writeSync(1);
   }
 
-  off(pin) {
-    debug('closing PIN %s', pin);
-    const pin = this.getPinInterface(pin);
+  off(pinNo) {
+    debug('closing PIN %s', pinNo);
+    const pin = this.getPinInterface(pinNo);
     pin.writeSync(0);
   }
 
