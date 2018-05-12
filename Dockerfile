@@ -7,6 +7,6 @@ COPY app/ app/
 COPY package.json .
 COPY package-lock.json .
 
-RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf /tmp/*
+RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean --force && rm -rf /tmp/*
 
 CMD ["node", "app/index.js"]
