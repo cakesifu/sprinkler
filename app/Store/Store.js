@@ -6,7 +6,7 @@ class Store {
     this.file = file;
     this.state = {};
 
-    fs.accessSync(file, fs.constants.R_OK | fs.constants.W_OK);
+    this._testFileAccess();
     this.load();
   }
 
@@ -30,6 +30,23 @@ class Store {
   save() {
     debug('saving state to %s', this.file);
     fs.writeFileSync(this.file, JSON.stringify(this.state));
+  }
+
+  _testFileAccess() {
+    try {
+      fs.accessSync(this.file, fs.constants.R_OK | fs.constants.W_OK);
+      debug('able to read/write to %s', this.file);
+    } catch (err) {
+      debug('unable to read/write to %s. will try to create.', this.file);
+
+      try {
+        fs.writeFileSync(this.file, '{}');
+        debug('state file created at: %s', this.file);
+      } catch (err) {
+        debug('unable to create state file: %s', this.file);
+        throw err;
+      }
+    }
   }
 }
 
